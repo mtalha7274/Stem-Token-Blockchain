@@ -293,11 +293,11 @@
 	},
 	"sources": {
 		"contracts/STEMMER_flattened.sol": {
-			"keccak256": "0x0ae656c5bec6661d474f7910941717753e927f96f481649799efd4a7759d23cb",
+			"keccak256": "0xf2678fd53ef06a7817cf83890995cc8914883d808235c2199783885e3730ad7e",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://7c6b6c6acaeb7d93003f37e31a873d8af2e37d2ee0efff2641b5a86965acbb6c",
-				"dweb:/ipfs/QmYGoXpubKd8ubPjuMGY2TNC3BGAukVCW1vvq7BcTN31zp"
+				"bzz-raw://7e6da4bf58afd34094f9185e353690870e7ec41ed82bcb25b84ba6f1d7466c2f",
+				"dweb:/ipfs/QmTWabjgB1V6PFuSLDKryctCkRv9m2Cr4fUuZwrjaLhkAt"
 			]
 		}
 	},

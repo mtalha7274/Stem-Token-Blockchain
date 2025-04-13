@@ -5,7 +5,7 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol"; // For USDT
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract STEMToken is ERC20, Ownable {
+contract STEMMER is ERC20, Ownable {
 
     IERC20 public usdtToken;
 
@@ -14,6 +14,10 @@ contract STEMToken is ERC20, Ownable {
 
     address public treasury;
     address public profitTreasury;
+
+    // 🔧 NEW STATE VARIABLES
+    uint256 public profitThreshold;
+    uint256 public accumulatedProfit;
 
     // 📢 Events
     event BuyStem(address indexed buyer, uint256 usdtAmount, uint256 stemAmount);
@@ -25,16 +29,20 @@ contract STEMToken is ERC20, Ownable {
     event TreasuryChanged(address indexed newTreasury);
     event ProfitTreasuryChanged(address indexed newProfitTreasury);
     event USDTWithdrawn(address indexed to, uint256 amount);
+    event ProfitThresholdUpdated(uint256 newThreshold);
+    event AccumulatedProfitWithdrawn(uint256 amount);
 
     constructor(
         address _usdtTokenAddress,
         address _treasury,
         address _profitTreasury,
-        uint256 initialSupply
+        uint256 initialSupply,
+        uint256 _profitThreshold
     ) ERC20("STEMMER", "STEM") Ownable(msg.sender) {
         usdtToken = IERC20(_usdtTokenAddress);
         treasury = _treasury;
         profitTreasury = _profitTreasury;
+        profitThreshold = _profitThreshold;
         _mint(treasury, initialSupply * 1e18);
     }
 
@@ -56,15 +64,22 @@ contract STEMToken is ERC20, Ownable {
         // Calculate USDT payout based on sellRate
         uint256 usdtAmount = (stemAmount * 1e18) / sellRate;
 
-        // Calculate expected STEM if sellRate = 1.0 (i.e. user should have received more USDT)
+        // Calculate expected STEM if sellRate = 1.0
         uint256 fairUsdtAmount = stemAmount / 1e18;
         uint256 expectedStems = fairUsdtAmount * sellRate;
         uint256 profitStems = expectedStems > stemAmount ? expectedStems - stemAmount : 0;
 
-        // Transfer user’s STEMs to treasury, and send profitStems to profit wallet
+        // Transfer user's STEMs to treasury
         _transfer(msg.sender, treasury, stemAmount);
+
+        // 🔧 PROFIT HANDLING — BATCHED
         if (profitStems > 0 && profitTreasury != address(0)) {
-            _transfer(treasury, profitTreasury, profitStems);
+            accumulatedProfit += profitStems;
+
+            if (accumulatedProfit >= profitThreshold) {
+                _transfer(treasury, profitTreasury, accumulatedProfit);
+                accumulatedProfit = 0;
+            }
         }
 
         require(usdtToken.transfer(msg.sender, usdtAmount), "USDT payout failed");
@@ -83,7 +98,7 @@ contract STEMToken is ERC20, Ownable {
         emit Burned(from, amount);
     }
 
-   // ⚙️ Admin: Change STEM buy rate
+    // ⚙️ Admin: Change STEM buy rate
     function setBuyRate(uint256 newRate) external onlyOwner {
         require(newRate >= 1e18, "Buy rate must be >= 1 STEM");
         require(newRate <= sellRate, "Buy rate must be <= Sell rate");
@@ -91,8 +106,7 @@ contract STEMToken is ERC20, Ownable {
         emit BuyRateUpdated(newRate);
     }
 
-
-    // ⚙️ Admin: Set Sell Rate (can be >= 1 STEM = 1 USDT)
+    // ⚙️ Admin: Set Sell Rate
     function setSellRate(uint256 newRate) external onlyOwner {
         require(newRate >= 1e18, unicode"Sell rate must be ≥ 1 STEM per USDT");
         sellRate = newRate;
@@ -105,16 +119,31 @@ contract STEMToken is ERC20, Ownable {
         emit USDTWithdrawn(to, amount);
     }
 
-    // 🏦 Admin: Set main treasury (holding STEM)
+    // 🏦 Admin: Set main treasury
     function setTreasury(address _treasury) external onlyOwner {
         treasury = _treasury;
         emit TreasuryChanged(_treasury);
     }
 
-    // 🏦 Admin: Set USDT profit receiver
+    // 🏦 Admin: Set profit wallet
     function setProfitTreasury(address _treasury) external onlyOwner {
         profitTreasury = _treasury;
         emit ProfitTreasuryChanged(_treasury);
+    }
+
+    // 🔧 NEW: Set profit threshold
+    function setProfitThreshold(uint256 newThreshold) external onlyOwner {
+        require(newThreshold > 0, "Threshold must be > 0");
+        profitThreshold = newThreshold;
+        emit ProfitThresholdUpdated(newThreshold);
+    }
+
+    // 🔧 NEW: Withdraw any accumulated profit manually
+    function withdrawAccumulatedProfit() external onlyOwner {
+        require(accumulatedProfit > 0, "No profit to withdraw");
+        _transfer(treasury, profitTreasury, accumulatedProfit);
+        emit AccumulatedProfitWithdrawn(accumulatedProfit);
+        accumulatedProfit = 0;
     }
 
     // Optional frontend helper
@@ -127,18 +156,22 @@ contract STEMToken is ERC20, Ownable {
         uint256 profitStemBalance,
         uint256 contractStemBalance,
         uint256 contractUsdtBalance,
-        uint256 totalStemSupply
-        ) {
-            return (
-                buyRate,
-                sellRate,
-                treasury,
-                profitTreasury,
-                balanceOf(treasury),
-                balanceOf(profitTreasury),
-                balanceOf(address(this)),
-                usdtToken.balanceOf(address(this)),
-                totalSupply()
-            );
-        }
+        uint256 totalStemSupply,
+        uint256 _accumulatedProfit,
+        uint256 _profitThreshold
+    ) {
+        return (
+            buyRate,
+            sellRate,
+            treasury,
+            profitTreasury,
+            balanceOf(treasury),
+            balanceOf(profitTreasury),
+            balanceOf(address(this)),
+            usdtToken.balanceOf(address(this)),
+            totalSupply(),
+            accumulatedProfit,
+            profitThreshold
+        );
+    }
 }
