@@ -29,7 +29,7 @@ All logic is handled by smart contracts, with zero manual interference — ensur
 - **Name**: STEMMER
 - **Symbol**: STEM
 - **Chain**: Polygon (PoS)
-- **Contract Address**: [`0x08f2437234cf3d84E06eF664AC19fB2012Cc2A84`](https://polygonscan.com/address/0x08f2437234cf3d84E06eF664AC19fB2012Cc2A84)
+- **Contract Address**: [`0x423A22467b8F27A84B980D8EA623a623756bAeb6`](https://polygonscan.com/address/0x423A22467b8F27A84B980D8EA623a623756bAeb6)
 
 STEM is used to:
 - Buy lottery tickets
@@ -47,7 +47,7 @@ To manually import the STEM token into your wallet (e.g., MetaMask):
 3. Click **“Import Tokens”**.
 4. Paste the following address into the **Token Contract Address** field:
 
-``0x08f2437234cf3d84E06eF664AC19fB2012Cc2A84``
+``0x423A22467b8F27A84B980D8EA623a623756bAeb6``
 
 
 MetaMask will auto-fill the symbol `STEM`. Confirm and you're good to go!
@@ -57,5 +57,5 @@ MetaMask will auto-fill the symbol `STEM`. Confirm and you're good to go!
 ## 📬 Stay Connected
 
 > 🌐 Project Website – Coming Soon  
-> 📊 [PolygonScan Token Page](https://polygonscan.com/token/0x08f2437234cf3d84E06eF664AC19fB2012Cc2A84)  
-> 🛠 [Smart Contract Code](https://polygonscan.com/address/0x08f2437234cf3d84E06eF664AC19fB2012Cc2A84#code)
+> 📊 [PolygonScan Token Page](https://polygonscan.com/token/0x423A22467b8F27A84B980D8EA623a623756bAeb6)  
+> 🛠 [Smart Contract Code](https://polygonscan.com/address/0x423A22467b8F27A84B980D8EA623a623756bAeb6#code)
