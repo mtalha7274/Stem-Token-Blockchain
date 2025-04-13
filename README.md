@@ -8,7 +8,7 @@ STEM Pay is a decentralized, on-chain lottery system powered by USDT and our nat
 - STEM tokens are used to participate in regular lottery draws.
 - Each ticket costs a fixed amount of STEM.
 - Winners are selected via verifiable randomness (on-chain or Chainlink VRF in future versions).
-- Winnings are distributed in **USDT**, and excess profit flows into a designated profit treasury.
+- Winnings are distributed in **USDT**, and those who don't win get their STEM back.
 
 All logic is handled by smart contracts, with zero manual interference — ensuring full transparency.
 
