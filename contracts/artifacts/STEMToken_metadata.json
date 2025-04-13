@@ -1,6 +1,6 @@
 {
 	"compiler": {
-		"version": "0.8.26+commit.8a97fa7a"
+		"version": "0.8.20+commit.a1b79de6"
 	},
 	"language": "Solidity",
 	"output": {
@@ -10,6 +10,16 @@
 					{
 						"internalType": "address",
 						"name": "_usdtTokenAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "_treasury",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "_profitTreasury",
 						"type": "address"
 					},
 					{
@@ -941,9 +951,9 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"contracts/STEMToken.sol": "STEMToken"
+			"contracts/STEMMER.sol": "STEMToken"
 		},
-		"evmVersion": "cancun",
+		"evmVersion": "shanghai",
 		"libraries": {},
 		"metadata": {
 			"bytecodeHash": "ipfs"
@@ -1003,12 +1013,12 @@
 				"dweb:/ipfs/Qmax9WHBnVsZP46ZxEMNRQpLQnrdE4dK8LehML1Py8FowF"
 			]
 		},
-		"contracts/STEMToken.sol": {
-			"keccak256": "0x6ad243011e2fa7dc6891613b84b1398e91bde823f3aed35c81962c30ea3dc649",
+		"contracts/STEMMER.sol": {
+			"keccak256": "0x0df9584401ba0e043c47e180d2011ce1d4faf30263a7b85cd02a1b3bfb754e2c",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://f35020fcdc81b36715ca7227cc43308f471c3917915ee1d866770128f02d2363",
-				"dweb:/ipfs/QmNxkDN1UCghkYKchyBuMw5NWTXFCrAywawMaF8kgmKG9C"
+				"bzz-raw://87620223b49ba0c8dc265420427c298f2513f2afcccc84df5aef5ef8cee6b604",
+				"dweb:/ipfs/QmSQkyRB3Y8gYoWe9b71mxZgi9quEcNaJtC7JRU82uhk3t"
 			]
 		}
 	},

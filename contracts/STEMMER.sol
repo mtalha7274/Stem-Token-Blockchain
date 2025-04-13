@@ -10,10 +10,10 @@ contract STEMToken is ERC20, Ownable {
     IERC20 public usdtToken;
 
     uint256 public buyRate = 1e18;      // Fixed: 1 USDT = 1 STEM
-    uint256 public sellRate = 1e18;              // Dynamic: ≥ 1 STEM per USDT
+    uint256 public sellRate = 1e18;     // Dynamic: ≥ 1 STEM per USDT
 
-    address public treasury = 0xfE09E35DfadF080A768f41df13e06629F5E80Eb9;
-    address public profitTreasury = 0xeACa0253B95730F2ae2755Af09083d69840A683C;               // 💸 New: profit wallet
+    address public treasury;
+    address public profitTreasury;
 
     // 📢 Events
     event BuyStem(address indexed buyer, uint256 usdtAmount, uint256 stemAmount);
@@ -26,8 +26,15 @@ contract STEMToken is ERC20, Ownable {
     event ProfitTreasuryChanged(address indexed newProfitTreasury);
     event USDTWithdrawn(address indexed to, uint256 amount);
 
-    constructor(address _usdtTokenAddress, uint256 initialSupply) ERC20("STEM Token", "STEM") Ownable(msg.sender) {
+    constructor(
+        address _usdtTokenAddress,
+        address _treasury,
+        address _profitTreasury,
+        uint256 initialSupply
+    ) ERC20("STEMMER", "STEM") Ownable(msg.sender) {
         usdtToken = IERC20(_usdtTokenAddress);
+        treasury = _treasury;
+        profitTreasury = _profitTreasury;
         _mint(treasury, initialSupply * 1e18);
     }
 
