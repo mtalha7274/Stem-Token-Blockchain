@@ -6,9 +6,9 @@ STEM Pay is a decentralized, on-chain lottery system powered by USDT and our nat
 
 - Users buy **STEM** tokens using **USDT** (Tether) on Polygon.
 - STEM tokens are used to participate in regular lottery draws.
-- Each ticket costs a fixed amount of STEM.
+- Each ticket costs a fixed amount of STEM e.g 1 STEM.
 - Winners are selected via verifiable randomness (on-chain or Chainlink VRF in future versions).
-- Winnings are distributed in **USDT**, and those who don't win get their STEM back.
+- Winnings are distributed in **STEMS** (which can be cashed back into **USDT**), and those who don't win get their 1 STEM back.
 
 All logic is handled by smart contracts, with zero manual interference — ensuring full transparency.
 
